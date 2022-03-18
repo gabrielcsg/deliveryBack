@@ -15,7 +15,7 @@ model Deliveryman {
   username String @unique
   password String
 
-  Deliveries Deliveries[]
+  Deliveries Delivery[]
   @@map("deliverymans")
 }
 
@@ -24,11 +24,11 @@ model Client {
   username String @unique
   password String
 
-  Deliveries Deliveries[]
+  Deliveries Delivery[]
   @@map("clients")
 }
 
-model Deliveries {
+model Delivery {
   id             String      @id @default(uuid())
   id_client      String
   client         Client      @relation(fields: [id_client], references: [id], onDelete: Cascade)
