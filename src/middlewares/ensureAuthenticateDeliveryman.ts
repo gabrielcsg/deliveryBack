@@ -6,7 +6,7 @@ interface IPayload {
   sub: string;
 }
 
-export async function ensureAuthenticateClient(
+export async function ensureAuthenticateDeliveryman(
   request: Request,
   response: Response,
   next: NextFunction
@@ -21,12 +21,14 @@ export async function ensureAuthenticateClient(
   try {
     const { sub } = verify(token, process.env.TOKEN_HASH!) as IPayload;
 
-    const client = await prisma.client.findFirst({ where: { id: sub } });
+    const deliveryman = await prisma.deliveryman.findFirst({
+      where: { id: sub },
+    });
 
-    if (!client)
-      return response.status(401).json({ message: "User is not client" });
+    if (!deliveryman)
+      return response.status(401).json({ message: "User is not deliveryman" });
 
-    request.id_client = sub;
+    request.id_deliveryman = sub;
 
     return next();
   } catch (error) {
